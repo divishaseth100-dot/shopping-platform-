@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Step into The Spooky Cauldron & Cursed Emporium — Your premier destination for Halloween treats, haunted curiosities, and authentic Harry Potter wizarding artifacts.">
+  <meta name="keywords" content="Halloween shopping, Harry Potter store, wizarding artifacts, Bertie Botts, Elder Wand, spooky treats, sorting hat, cauldron, enchanted gifts">
+  <title>The Spooky Cauldron & Cursed Emporium | Halloween & Harry Potter Wizarding Bazaar</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎃</text></svg>">
+  
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Ambient Particle Embers -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Lumos Spell Flashlight Radial Overlay -->
+  <div id="lumos-overlay"></div>
+
+  <!-- Announcement Ticker -->
+  <aside class="announcement-bar" aria-label="Emporium Dispatches">
+    <div class="ticker-wrap">
+      <span>🦇 <strong>Owl Post Dispatch:</strong> Guaranteed Midnight Delivery across Hogsmeade, Diagon Alley & Muggle Reaches!</span>
+      <span>•</span>
+      <span>🍫 <strong>Prof. Lupin's Advice:</strong> <em>"Eat it. You'll feel better. It's chocolate."</em> Honeydukes Anti-Dementor Slabs now in stock!</span>
+      <span>•</span>
+      <span>🎃 <span class="ticker-highlight">Witching Season Sale:</span> Chant <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #ff9f43;">LUMOS</code> in Cauldron for 15% off enchanted relics!</span>
+      <span>•</span>
+      <span>⚡ <strong>Ministry Notice:</strong> Beware of cursed Bertie Bott's earwax batches in the cellar!</span>
+    </div>
+  </aside>
+
+  <!-- Sticky Site Navigation Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="brand" aria-label="The Spooky Cauldron Home">
+        <svg class="cauldron-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cauldron Base -->
+          <ellipse cx="50" cy="30" rx="34" ry="10" fill="#10B981" stroke="#34D399" stroke-width="2"/>
+          <circle cx="44" cy="27" r="3" fill="#6EE7B7"/>
+          <circle cx="56" cy="25" r="4" fill="#A7F3D0"/>
+          <path d="M16 30 C14 74 34 85 50 85 C66 85 86 74 84 30 Z" fill="#181124" stroke="#D97706" stroke-width="3"/>
+          <rect x="25" y="82" width="6" height="10" rx="2" fill="#78350F"/>
+          <rect x="69" y="82" width="6" height="10" rx="2" fill="#78350F"/>
+          <!-- Pumpkin face glow on cauldron -->
+          <polygon points="38,50 44,50 41,45" fill="#F59E0B"/>
+          <polygon points="56,50 62,50 59,45" fill="#F59E0B"/>
+          <polygon points="50,56 47,62 53,62" fill="#F59E0B"/>
+          <path d="M40,68 Q50,75 60,68" stroke="#F59E0B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-text">
+          <h1>The Spooky Cauldron</h1>
+          <p>Cursed Emporium & Wizarding Bazaar</p>
+        </div>
+      </a>
+
+      <!-- Quick Nav Controls -->
+      <div class="header-actions">
+        <!-- Interactive Spell Caster button -->
+        <button id="btn-open-spells" class="btn-icon-spell" title="Open Wand Spellbook">
+          <span>✨ Cast Spell</span>
+        </button>
+
+        <!-- Boggart Wardrobe Challenge Button -->
+        <button id="btn-boggart-challenge" class="btn-icon-spell" style="border-color: var(--galleon-gold); color: #fde68a;" title="Face Lupin's Boggart Wardrobe">
+          <span>🚪 Boggart Wardrobe</span>
+        </button>
+
+        <!-- Sorting Hat Button -->
+        <button id="btn-sorting-quiz" class="btn-icon-spell" style="border-color: var(--amethyst-purple); color: #e9d5ff;" title="Hogwarts House Sorting">
+          <span>🎩 Get Sorted</span>
+        </button>
+
+        <!-- Currency Switcher -->
+        <select id="currency-selector" class="currency-dropdown" aria-label="Select Currency">
+          <option value="galleon">ʛ Galleons</option>
+          <option value="usd">$ USD</option>
+          <option value="coin">₮ Treat Coins</option>
+        </select>
+
+        <!-- Sound Synthesizer Audio Toggle -->
+        <button id="sound-toggle-btn" class="btn-sound-toggle muted" title="Toggle Spooky Ambient Audio" aria-label="Toggle Sound">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+          </svg>
+        </button>
+
+        <!-- Wishlist Button -->
+        <button id="btn-wishlist-open" class="badge-btn cat-tab" data-category="favorites" title="View Saved Grimoire Bookmarks" aria-label="Wishlist">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          <span class="badge-counter wishlist-count">0</span>
+        </button>
+
+        <!-- Cauldron Cart Button -->
+        <button id="btn-cart-open" class="badge-btn cart-cauldron-btn" title="Inspect Brewing Cauldron Cart" aria-label="Cart">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span class="badge-counter cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-banner-container" style="background-image: url('assets/hero.jpg');">
+        <!-- Interactive Background Animations (Floating Candles & Drifting Mist) -->
+        <div class="floating-candles-container" id="floating-candles"></div>
+        <div class="drifting-mist-layer"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span>🎃</span> All Hallows' Eve & Wizarding Season
+          </div>
+          <h2 class="hero-title">Welcome to the Dark Arts & Halloween Bazaar</h2>
+          <p class="hero-subtitle">
+            Enter our candlelit apothecary of sweet illusions, forbidden curses, and potent sorcery. Discover bubbling cauldrons, Deathly Hallows relics, enchanted robes, and eerie oddities.
+          </p>
+
+          <!-- Halloween Countdown Clock -->
+          <div class="countdown-box">
+            <div class="countdown-title">
+              <span>⏳</span> Witching Hour In:
+            </div>
+            <div class="countdown-timer">
+              <div class="time-slot">
+                <span id="count-days">14</span>
+                <span class="unit">Days</span>
+              </div>
+              <div class="time-slot">
+                <span id="count-hours">12</span>
+                <span class="unit">Hours</span>
+              </div>
+              <div class="time-slot">
+                <span id="count-mins">45</span>
+                <span class="unit">Mins</span>
+              </div>
+              <div class="time-slot">
+                <span id="count-secs">30</span>
+                <span class="unit">Secs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="hero-buttons">
+            <a href="#shop" class="btn-primary-spooky">
+              <span>Explore the Vaults</span>
+              <span>⚡</span>
+            </a>
+            <button id="hero-boggart-trigger" class="btn-secondary-magic" style="border-color: var(--galleon-gold); color: #fde68a;">
+              <span>🚪 Face The Boggart (Lupin's DADA)</span>
+            </button>
+            <button id="hero-quiz-trigger" class="btn-secondary-magic" onclick="document.getElementById('btn-sorting-quiz').click()">
+              <span>🎩 House Sorting Ceremony</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED CATEGORY SPOTLIGHTS -->
+    <section class="category-spotlight-section">
+      <div class="spotlight-grid">
+        <!-- Potions Spotlight -->
+        <article class="spotlight-card spotlight-treats" onclick="document.querySelector('[data-category=\'potions\']').click(); location.href='#shop';">
+          <div class="spotlight-icon-wrap">🧪</div>
+          <div class="spotlight-content">
+            <h3>Spooky Potions & Brews</h3>
+            <p>Polyjuice brewing kits, Lupin's Anti-Dementor chocolate draught, Draught of Living Death, and bubbling cauldron cakes.</p>
+            <div class="spotlight-link">Explore Potions &rarr;</div>
+          </div>
+        </article>
+
+        <!-- Dark Arts Spotlight -->
+        <article class="spotlight-card spotlight-spooky" onclick="document.querySelector('[data-category=\'darkarts\']').click(); location.href='#shop';">
+          <div class="spotlight-icon-wrap">⚡</div>
+          <div class="spotlight-content">
+            <h3>Dark Arts & Curiosities</h3>
+            <p>The Elder Wand, Rattling Boggart Wardrobe, Gaunt's Resurrection Stone, severed crawling familiars, and spirit boards.</p>
+            <div class="spotlight-link">Unveil Dark Relics &rarr;</div>
+          </div>
+        </article>
+
+        <!-- Apparel Spotlight -->
+        <article class="spotlight-card spotlight-potter" onclick="document.querySelector('[data-category=\'apparel\']').click(); location.href='#shop';">
+          <div class="spotlight-icon-wrap">🧙‍♂️</div>
+          <div class="spotlight-content">
+            <h3>Halloween Robes & Apparel</h3>
+            <p>Sentient Sorting Hats, Invisibility Shimmer Cloaks, lambswool house winter scarves, and Ministry Time-Turners.</p>
+            <div class="spotlight-link">Inspect Apparel &rarr;</div>
+          </div>
+        </article>
+
+        <!-- Eerie Decor Spotlight -->
+        <article class="spotlight-card spotlight-treats" style="border-color: rgba(245, 158, 11, 0.4);" onclick="document.querySelector('[data-category=\'decor\']').click(); location.href='#shop';">
+          <div class="spotlight-icon-wrap">🎃</div>
+          <div class="spotlight-content">
+            <h3>Eerie Decor</h3>
+            <p>Screaming skull lamps, levitating golden snitches, captured mist phantoms, and ultrasonic fog cauldrons.</p>
+            <div class="spotlight-link">View Eerie Decor &rarr;</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SHOP CATALOG & TOOLBAR -->
+    <section id="shop" class="shop-section">
+      <div class="section-header-wrap">
+        <span class="section-badge">Diagon Alley & Knockturn Alley Archives</span>
+        <h2 class="section-title">The Grand Emporium Vault</h2>
+        <p class="section-desc">
+          Browse through our curated collection of treats, curses, and artifacts. Filter by category, house allegiance, or spook factor.
+        </p>
+      </div>
+
+      <!-- Sorting Hat Shopping Guide Banner Widget -->
+      <div class="sorting-hat-guide-banner">
+        <div class="sorting-hat-banner-content">
+          <span class="sorting-hat-banner-icon">🎩</span>
+          <div class="sorting-hat-banner-text">
+            <h3>Let the Sorting Hat guide your Halloween shopping!</h3>
+            <p>Answer three magical questions to reveal tailored robes, potions, and artifacts suited to your house.</p>
+          </div>
+        </div>
+        <button class="btn-primary-spooky" onclick="document.getElementById('btn-sorting-quiz').click()">
+          <span>Take Sorting Ceremony</span>
+          <span>✨</span>
+        </button>
+      </div>
+
+      <!-- Toolbar with Spell Scroll Search Bar -->
+      <div class="shop-toolbar">
+        <div class="toolbar-top">
+          <!-- Spell Scroll Search Bar with Instant Auto-Suggest -->
+          <div class="scroll-search-wrapper">
+            <div class="scroll-search-container">
+              <div class="scroll-handle-left"></div>
+              <span class="scroll-quill-icon">📜</span>
+              <input type="text" id="search-input" class="search-input-scroll" placeholder="Inscribe spell, potion, robe, wand, or relic..." aria-label="Search items" autocomplete="off">
+              <div class="scroll-handle-right"></div>
+            </div>
+            <!-- Auto-Suggest Dropdown -->
+            <div id="search-suggest-dropdown" class="auto-suggest-dropdown"></div>
+          </div>
+
+          <!-- Sort and Spook Rating Filters -->
+          <div class="toolbar-actions">
+            <!-- Spook Rating -->
+            <select id="spook-select" class="select-custom" aria-label="Filter by spook factor">
+              <option value="0">💀 All Spook Factors</option>
+              <option value="2">💀💀 2+ Skulls</option>
+              <option value="3">💀💀💀 3+ Skulls (Cursed)</option>
+              <option value="4">💀💀💀💀 4+ Skulls (Perilous)</option>
+              <option value="5">💀💀💀💀💀 5 Skulls (Deadly)</option>
+            </select>
+
+            <!-- Sort By -->
+            <select id="sort-select" class="select-custom" aria-label="Sort products">
+              <option value="featured">✨ Featured & Recommended</option>
+              <option value="rating-desc">★ Highest Customer Rating</option>
+              <option value="price-asc">ʛ Price: Low to High</option>
+              <option value="price-desc">ʛ Price: High to Low</option>
+              <option value="spook-desc">💀 Most Spooky First</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filter Categories (Requested) -->
+        <nav class="category-tabs" aria-label="Category Filters">
+          <button class="cat-tab active" data-category="all">
+            <span>✨ All Vaults</span>
+          </button>
+          <button class="cat-tab" data-category="potions">
+            <span>🧪 Spooky Potions & Brews</span>
+          </button>
+          <button class="cat-tab" data-category="darkarts">
+            <span>⚡ Dark Arts & Curiosities</span>
+          </button>
+          <button class="cat-tab" data-category="apparel">
+            <span>🧙‍♂️ Halloween Robes & Apparel</span>
+          </button>
+          <button class="cat-tab" data-category="decor">
+            <span>🎃 Eerie Decor</span>
+          </button>
+          <button class="cat-tab" data-category="favorites">
+            <span>📖 Grimoire Bookmarks</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Results Meta -->
+      <div class="results-meta">
+        <span id="results-count">Loading artifacts...</span>
+        <button id="btn-reset-filters" class="btn-reset-filters">Reset All Filters</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="products-grid" class="products-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- CAULDRON CART DRAWER -->
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping Cauldron">
+    <div class="drawer-header">
+      <div class="drawer-header-title">
+        <span style="font-size: 1.5rem;">🧪</span>
+        <h2>Bubbling Cauldron</h2>
+      </div>
+      <button id="btn-cart-close" class="btn-close-drawer" aria-label="Close Cauldron">✕</button>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-container" class="cart-items-scroll">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="drawer-footer">
+      <!-- Delivery Method Selector -->
+      <div class="shipping-selector-box">
+        <div class="shipping-title">
+          <span>🦉</span> Select Dispatch Method:
+        </div>
+        <div class="shipping-options">
+          <label class="shipping-radio-label">
+            <div>
+              <input type="radio" name="shipping" value="owl" checked>
+              <span>🦉 Barn Owl Express (Free over 15 ʛ)</span>
+            </div>
+            <span>2.00 ʛ</span>
+          </label>
+          <label class="shipping-radio-label">
+            <div>
+              <input type="radio" name="shipping" value="nimbus">
+              <span>🧹 Nimbus 2000 Rush</span>
+            </div>
+            <span>4.50 ʛ</span>
+          </label>
+          <label class="shipping-radio-label">
+            <div>
+              <input type="radio" name="shipping" value="floo">
+              <span>💨 Floo Powder Instant Port</span>
+            </div>
+            <span>6.00 ʛ</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Promo Code Box -->
+      <div class="promo-box">
+        <input type="text" id="promo-input" class="promo-input" placeholder="INCANTATION (e.g. LUMOS)" aria-label="Promo Code">
+        <button id="btn-apply-promo" class="btn-apply-promo">Inscribe</button>
+      </div>
+      <div id="promo-message"></div>
+
+      <!-- Order Summary -->
+      <div class="summary-row">
+        <span>Cauldron Subtotal:</span>
+        <span id="cart-subtotal">0.00 ʛ</span>
+      </div>
+      <div id="cart-discount-row" class="summary-row" style="color: var(--cursed-emerald); display: none;">
+        <span>Spell Discount:</span>
+        <span id="cart-discount">-0.00 ʛ</span>
+      </div>
+      <div class="summary-row">
+        <span>Owl Delivery:</span>
+        <span id="cart-shipping">2.00 ʛ</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>Grand Total:</span>
+        <span id="cart-total" class="total-price">0.00 ʛ</span>
+      </div>
+
+      <!-- Checkout Button -->
+      <button id="btn-checkout" class="btn-checkout-parchment">
+        <span>Cast Checkout Spell</span>
+        <span>🪄</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- QUICK VIEW / PRODUCT LORE MODAL -->
+  <div id="quick-view-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-label="Artifact Lore">
+    <div class="modal-box quick-view-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div id="quick-view-content" style="display: contents;"></div>
+    </div>
+  </div>
+
+  <!-- SPELL CASTER GRIMOIRE MODAL -->
+  <div id="spell-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-label="Wand Spellbook">
+    <div class="modal-box spell-caster-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div class="spell-icon-halo">🪄</div>
+      <h2 style="font-family: var(--font-magic); color: #fff; font-size: 1.6rem; margin-bottom: 6px;">
+        Wand Spell Caster
+      </h2>
+      <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 460px; margin: 0 auto 16px;">
+        Channel your magical core. Tap any incantation below to trigger ambient atmospheric spells in the emporium!
+      </p>
+
+      <div class="spells-grid">
+        <button class="spell-btn-action" data-spell="lumos">
+          <span>💡 Lumos Maxima</span>
+          <span>Illuminate shop flashlight</span>
+        </button>
+        <button class="spell-btn-action" data-spell="nox">
+          <span>🌑 Nox</span>
+          <span>Extinguish wand light</span>
+        </button>
+        <button class="spell-btn-action" data-spell="incendio">
+          <span>🔥 Incendio</span>
+          <span>Ember explosion burst</span>
+        </button>
+        <button class="spell-btn-action" data-spell="aguamenti">
+          <span>🌊 Aguamenti</span>
+          <span>Bubbling fountain ripple</span>
+        </button>
+        <button class="spell-btn-action" data-spell="alohomora">
+          <span>🗝️ Alohomora</span>
+          <span>Unlock secret promo perk</span>
+        </button>
+        <button class="spell-btn-action" data-spell="patronum">
+          <span>🦌 Expecto Patronum</span>
+          <span>Silver patronus spirit glow</span>
+        </button>
+        <button class="spell-btn-action" data-spell="riddikulus">
+          <span>🪄 Riddikulus!</span>
+          <span>Banish Boggart fears into laughter</span>
+        </button>
+      </div>
+
+      <div class="spell-output-display" id="spell-output-text">
+        Ready your wand... chant an incantation!
+      </div>
+    </div>
+  </div>
+
+  <!-- BOGGART WARDROBE CHALLENGE MODAL (LUPIN'S DADA CLASS) -->
+  <div id="boggart-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-label="Boggart Wardrobe Challenge">
+    <div class="modal-box boggart-modal-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div class="lupin-badge-header">
+        <span>🌕</span> Defense Against the Dark Arts with Professor Lupin
+      </div>
+      <h2 style="font-family: var(--font-magic); color: #fff; font-size: 1.6rem; margin-bottom: 6px;">
+        The Staffroom Boggart Wardrobe
+      </h2>
+      <div class="lupin-quote-banner">
+        <strong>Professor Remus Lupin:</strong><br>
+        <em>"Intriguing, isn't it? What is trapped inside that wardrobe is a <strong>Boggart</strong>. It takes the shape of whatever you fear most. But the incantation that repels it is remarkably simple: <strong>Riddikulus!</strong> Force the nightmare into something so absurd you cannot help but laugh!"</em>
+      </div>
+
+      <div class="wardrobe-stage" id="wardrobe-stage">
+        <!-- Rendered by app.js: initial rattling wardrobe, scary boggart, or comic transformed creature -->
+      </div>
+
+      <div class="boggart-action-bar" id="boggart-action-bar">
+        <!-- Dynamic Action buttons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SORTING HAT QUIZ MODAL -->
+  <div id="quiz-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-label="Hogwarts Sorting Quiz">
+    <div class="modal-box quiz-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div style="text-align: center; margin-bottom: 16px;">
+        <span style="font-size: 2.5rem;">🎩</span>
+        <h2 style="font-family: var(--font-magic); font-size: 1.5rem; color: #fff; margin-top: 4px;">
+          The Sorting Ceremony
+        </h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Answer truthfully to discover your house and receive tailored enchantments.
+        </p>
+      </div>
+      <div id="quiz-content"></div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT & OWL POST RECEIPT MODAL -->
+  <div id="checkout-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-label="Owl Post Checkout">
+    <div class="modal-box" style="max-width: 650px; background: transparent; border: none; box-shadow: none;">
+      <button class="modal-close-btn" style="background: #451a03; color: #fff; border-color: #78350f;" aria-label="Close modal">✕</button>
+      <div id="checkout-content"></div>
+    </div>
+  </div>
+
+  <!-- DRAWER & MODAL BACKDROP -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>The Spooky Cauldron</h3>
+        <p>
+          Purveyors of finest magical treats, cursed collectibles, and wizarding heirlooms since 1692. Authorized supplier to Hogwarts School of Witchcraft and Wizardry.
+        </p>
+        <p style="font-size: 0.8rem; margin-top: 12px; color: var(--galleon-gold);">
+          🦉 All Owl Post parcels insured against Dementor interception and goblin theft.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Wizarding Quarters</h4>
+        <ul>
+          <li><a href="#shop" onclick="document.querySelector('[data-category=\'treats\']').click()">Honeydukes Treats</a></li>
+          <li><a href="#shop" onclick="document.querySelector('[data-category=\'spooky\']').click()">Borgin & Burkes Relics</a></li>
+          <li><a href="#shop" onclick="document.querySelector('[data-category=\'potter\']').click()">Ollivanders Wands</a></li>
+          <li><a href="#shop" onclick="document.querySelector('[data-category=\'potter\']').click()">Deathly Hallows</a></li>
+          <li><a href="#shop" onclick="document.querySelector('[data-category=\'treats\']').click()">Pumpkin Pasties</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Hogwarts Houses</h4>
+        <ul>
+          <li><a href="#shop" onclick="document.getElementById('search-input').value='Gryffindor'; document.getElementById('search-input').dispatchEvent(new Event('input'))">🦁 Gryffindor Pride</a></li>
+          <li><a href="#shop" onclick="document.getElementById('search-input').value='Slytherin'; document.getElementById('search-input').dispatchEvent(new Event('input'))">🐍 Slytherin Ambition</a></li>
+          <li><a href="#shop" onclick="document.getElementById('search-input').value='Ravenclaw'; document.getElementById('search-input').dispatchEvent(new Event('input'))">🦅 Ravenclaw Wisdom</a></li>
+          <li><a href="#shop" onclick="document.getElementById('search-input').value='Hufflepuff'; document.getElementById('search-input').dispatchEvent(new Event('input'))">🦡 Hufflepuff Loyalty</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Spells & Enchantments</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-spells').click()">🪄 Cast Lumos</a></li>
+          <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-spells').click()">🔥 Cast Incendio</a></li>
+          <li><a href="javascript:void(0)" onclick="document.getElementById('btn-sorting-quiz').click()">🎩 Sorting Ceremony</a></li>
+          <li><a href="javascript:void(0)" onclick="document.getElementById('sound-toggle-btn').click()">🎵 Toggle Spooky Sound</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        &copy; 2026 The Spooky Cauldron & Cursed Emporium. Handcrafted with HTML, Vanilla CSS & Modern JavaScript.
+      </div>
+      <div>
+        Protected by the International Statute of Wizarding Secrecy. Mischief Managed! ✨
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
